@@ -17,7 +17,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class ChatPageState extends State<ChatPage> {
-  final db = Firestore.instance;
+  final db = FirebaseFirestore.instance;
   CollectionReference chatReference;
   final TextEditingController _textController =
   new TextEditingController();

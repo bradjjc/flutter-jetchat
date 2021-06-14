@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   String _tabTitle = "Contacts";
   List<Widget> _children = [Container(), Container()];
 
-  final db = Firestore.instance;
+  final db = FirebaseFirestore.instance;
   final ContactPicker _contactPicker = new ContactPicker();
   CollectionReference contactsReference;
   DocumentReference profileReference;

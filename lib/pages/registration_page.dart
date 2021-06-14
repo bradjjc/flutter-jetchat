@@ -18,7 +18,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String verificationId;
   String errorMessage = '';
   FirebaseAuth _auth = FirebaseAuth.instance;
-  final db = Firestore.instance;
+  final db = FirebaseFirestore.instance;
 
   @override
   initState() {
@@ -92,13 +92,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   signIn() async {
     try {
-      final AuthCredential credential = PhoneAuthProvider.getCredential(
+      final AuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: smsOTP,
       );
-      final FirebaseUser user = await _auth.signInWithCredential(credential);
-      final FirebaseUser currentUser = await _auth.currentUser();
-      assert(user.uid == currentUser.uid);
+      // final FirebaseUser user = await _auth.signInWithCredential(credential);
+      // final FirebaseUser currentUser = await _auth.currentUser();
+      final FirebaseAuth auth = FirebaseAuth.instance;
+      final User user = auth.currentUser;
+      // final myUid = user.uid;
+      assert(user.uid == user.uid);
       Navigator.of(context).pop();
       DocumentReference mobileRef = db
           .collection("mobiles")
