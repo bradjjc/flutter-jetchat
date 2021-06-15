@@ -9,7 +9,9 @@ class ChatPage extends StatefulWidget {
   final SharedPreferences prefs;
   final String chatId;
   final String title;
-  ChatPage({this.prefs, this.chatId,this.title});
+
+  ChatPage({this.prefs, this.chatId, this.title});
+
   @override
   ChatPageState createState() {
     return new ChatPageState();
@@ -19,8 +21,7 @@ class ChatPage extends StatefulWidget {
 class ChatPageState extends State<ChatPage> {
   final db = FirebaseFirestore.instance;
   CollectionReference chatReference;
-  final TextEditingController _textController =
-  new TextEditingController();
+  final TextEditingController _textController = new TextEditingController();
   bool _isWritting = false;
 
   @override
@@ -45,26 +46,26 @@ class ChatPageState extends State<ChatPage> {
               margin: const EdgeInsets.only(top: 5.0),
               child: documentSnapshot.data['image_url'] != ''
                   ? InkWell(
-                child: new Container(
-                  child: Image.network(
-                    documentSnapshot.data['image_url'],
-                    fit: BoxFit.fitWidth,
-                  ),
-                  height: 150,
-                  width: 150.0,
-                  color: Color.fromRGBO(0, 0, 0, 0.2),
-                  padding: EdgeInsets.all(5),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => GalleryPage(
-                        imagePath: documentSnapshot.data['image_url'],
+                      child: new Container(
+                        child: Image.network(
+                          documentSnapshot.data['image_url'],
+                          fit: BoxFit.fitWidth,
+                        ),
+                        height: 150,
+                        width: 150.0,
+                        color: Color.fromRGBO(0, 0, 0, 0.2),
+                        padding: EdgeInsets.all(5),
                       ),
-                    ),
-                  );
-                },
-              )
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => GalleryPage(
+                              imagePath: documentSnapshot.data['image_url'],
+                            ),
+                          ),
+                        );
+                      },
+                    )
                   : new Text(documentSnapshot.data['text']),
             ),
           ],
@@ -77,7 +78,7 @@ class ChatPageState extends State<ChatPage> {
               margin: const EdgeInsets.only(left: 8.0),
               child: new CircleAvatar(
                 backgroundImage:
-                new NetworkImage(documentSnapshot.data['profile_photo']),
+                    new NetworkImage(documentSnapshot.data['profile_photo']),
               )),
         ],
       ),
@@ -93,7 +94,7 @@ class ChatPageState extends State<ChatPage> {
               margin: const EdgeInsets.only(right: 8.0),
               child: new CircleAvatar(
                 backgroundImage:
-                new NetworkImage(documentSnapshot.data['profile_photo']),
+                    new NetworkImage(documentSnapshot.data['profile_photo']),
               )),
         ],
       ),
@@ -110,26 +111,26 @@ class ChatPageState extends State<ChatPage> {
               margin: const EdgeInsets.only(top: 5.0),
               child: documentSnapshot.data['image_url'] != ''
                   ? InkWell(
-                child: new Container(
-                  child: Image.network(
-                    documentSnapshot.data['image_url'],
-                    fit: BoxFit.fitWidth,
-                  ),
-                  height: 150,
-                  width: 150.0,
-                  color: Color.fromRGBO(0, 0, 0, 0.2),
-                  padding: EdgeInsets.all(5),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => GalleryPage(
-                        imagePath: documentSnapshot.data['image_url'],
+                      child: new Container(
+                        child: Image.network(
+                          documentSnapshot.data['image_url'],
+                          fit: BoxFit.fitWidth,
+                        ),
+                        height: 150,
+                        width: 150.0,
+                        color: Color.fromRGBO(0, 0, 0, 0.2),
+                        padding: EdgeInsets.all(5),
                       ),
-                    ),
-                  );
-                },
-              )
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => GalleryPage(
+                              imagePath: documentSnapshot.data['image_url'],
+                            ),
+                          ),
+                        );
+                      },
+                    )
                   : new Text(documentSnapshot.data['text']),
             ),
           ],
@@ -141,13 +142,13 @@ class ChatPageState extends State<ChatPage> {
   generateMessages(AsyncSnapshot<QuerySnapshot> snapshot) {
     return snapshot.data.documents
         .map<Widget>((doc) => Container(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      child: new Row(
-        children: doc.data['sender_id'] != widget.prefs.getString('uid')
-            ? generateReceiverLayout(doc)
-            : generateSenderLayout(doc),
-      ),
-    ))
+              margin: const EdgeInsets.symmetric(vertical: 10.0),
+              child: new Row(
+                children: doc.data['sender_id'] != widget.prefs.getString('uid')
+                    ? generateReceiverLayout(doc)
+                    : generateSenderLayout(doc),
+              ),
+            ))
         .toList();
   }
 
@@ -162,7 +163,8 @@ class ChatPageState extends State<ChatPage> {
         child: new Column(
           children: <Widget>[
             StreamBuilder<QuerySnapshot>(
-              stream: chatReference.orderBy('time',descending: true).snapshots(),
+              stream:
+                  chatReference.orderBy('time', descending: true).snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) return new Text("No Chat");
@@ -191,9 +193,7 @@ class ChatPageState extends State<ChatPage> {
   IconButton getDefaultSendButton() {
     return new IconButton(
       icon: new Icon(Icons.send),
-      onPressed: _isWritting
-          ? () => _sendText(_textController.text)
-          : null,
+      onPressed: _isWritting ? () => _sendText(_textController.text) : null,
     );
   }
 
@@ -224,7 +224,7 @@ class ChatPageState extends State<ChatPage> {
                           .ref()
                           .child('chats/img_' + timestamp.toString() + '.jpg');
                       StorageUploadTask uploadTask =
-                      storageReference.putFile(image);
+                          storageReference.putFile(image);
                       await uploadTask.onComplete;
                       String fileUrl = await storageReference.getDownloadURL();
                       _sendImage(messageText: null, imageUrl: fileUrl);
@@ -240,7 +240,7 @@ class ChatPageState extends State<ChatPage> {
                   },
                   onSubmitted: _sendText,
                   decoration:
-                  new InputDecoration.collapsed(hintText: "Send a message"),
+                      new InputDecoration.collapsed(hintText: "Send a message"),
                 ),
               ),
               new Container(

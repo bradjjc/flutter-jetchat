@@ -4,6 +4,7 @@ import 'package:photo_view/photo_view.dart';
 
 class GalleryPage extends StatefulWidget {
   final String imagePath;
+
   GalleryPage({this.imagePath});
 
   @override

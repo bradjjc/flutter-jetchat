@@ -7,7 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class RegistrationPage extends StatefulWidget {
   final SharedPreferences prefs;
+
   RegistrationPage({this.prefs});
+
   @override
   _RegistrationPageState createState() => _RegistrationPageState();
 }
@@ -32,14 +34,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
     };
     try {
       await _auth.verifyPhoneNumber(
-          phoneNumber: this.phoneNo, // PHONE NUMBER TO SEND OTP
+          phoneNumber: this.phoneNo,
+          // PHONE NUMBER TO SEND OTP
           codeAutoRetrievalTimeout: (String verId) {
             //Starts the phone number verification process for the given phone number.
             //Either sends an SMS with a 6 digit code to the phone number specified, or sign's the user in and [verificationCompleted] is called.
             this.verificationId = verId;
           },
-          codeSent:
-          smsOTPSent, // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
+          codeSent: smsOTPSent,
+          // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
           timeout: const Duration(seconds: 20),
           verificationCompleted: (AuthCredential phoneAuthCredential) {
             print(phoneAuthCredential);
@@ -69,9 +72,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ),
                 (errorMessage != ''
                     ? Text(
-                  errorMessage,
-                  style: TextStyle(color: Colors.red),
-                )
+                        errorMessage,
+                        style: TextStyle(color: Colors.red),
+                      )
                     : Container())
               ]),
             ),
@@ -124,10 +127,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
               widget.prefs.setString('profile_photo', "");
 
               mobileRef.setData({'uid': documentReference.documentID}).then(
-                      (documentReference) async {
-                    Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => HomePage(prefs: widget.prefs)));
-                  }).catchError((e) {
+                  (documentReference) async {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) => HomePage(prefs: widget.prefs)));
+              }).catchError((e) {
                 print(e);
               });
             }).catchError((e) {
@@ -194,9 +197,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
             ),
             (errorMessage != ''
                 ? Text(
-              errorMessage,
-              style: TextStyle(color: Colors.red),
-            )
+                    errorMessage,
+                    style: TextStyle(color: Colors.red),
+                  )
                 : Container()),
             SizedBox(
               height: 10,

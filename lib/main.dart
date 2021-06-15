@@ -1,9 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_jetchart/pages/home_page.dart';
 import 'package:flutter_jetchart/pages/registration_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 void main() {
   SharedPreferences.getInstance().then((prefs) {
@@ -13,7 +11,9 @@ void main() {
 
 class MyApp extends StatelessWidget {
   final SharedPreferences prefs;
+
   MyApp({this.prefs});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       home: _decideMainPage(),
     );
   }
+
   _decideMainPage() {
     if (prefs.getBool('is_verified') != null) {
       if (prefs.getBool('is_verified')) {

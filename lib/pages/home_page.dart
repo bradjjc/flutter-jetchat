@@ -10,7 +10,9 @@ import 'package:contact_picker/contact_picker.dart';
 
 class HomePage extends StatefulWidget {
   final SharedPreferences prefs;
+
   HomePage({this.prefs});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -29,6 +31,7 @@ class _HomePageState extends State<HomePage> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   final _yourNameController = TextEditingController();
   bool editName = false;
+
   @override
   void initState() {
     super.initState();
@@ -90,111 +93,111 @@ class _HomePageState extends State<HomePage> {
           children: <Widget>[
             (profileSnapshot != null
                 ? (profileSnapshot.data['profile_photo'] != null
-                ? InkWell(
-              child: Container(
-                width: 190.0,
-                height: 190.0,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: NetworkImage(
-                        '${profileSnapshot.data['profile_photo']}'),
-                  ),
-                ),
-              ),
-              onTap: () {
-                getProfilePicture();
-              },
-            )
-                : Container())
+                    ? InkWell(
+                        child: Container(
+                          width: 190.0,
+                          height: 190.0,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(
+                                  '${profileSnapshot.data['profile_photo']}'),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          getProfilePicture();
+                        },
+                      )
+                    : Container())
                 : Container()),
             SizedBox(
               height: 20,
             ),
             (!editName && profileSnapshot != null
                 ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text('${profileSnapshot.data["name"]}'),
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () {
-                    setState(() {
-                      editName = true;
-                    });
-                  },
-                ),
-              ],
-            )
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text('${profileSnapshot.data["name"]}'),
+                      IconButton(
+                        icon: Icon(Icons.edit),
+                        onPressed: () {
+                          setState(() {
+                            editName = true;
+                          });
+                        },
+                      ),
+                    ],
+                  )
                 : Container()),
             (editName
                 ? Form(
-              key: _formStateKey,
-              autovalidate: true,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding:
-                    EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please Enter Name';
-                        }
-                        if (value.trim() == "")
-                          return "Only Space is Not Valid!!!";
-                        return null;
-                      },
-                      controller: _yourNameController,
-                      decoration: InputDecoration(
-                        focusedBorder: new UnderlineInputBorder(
-                            borderSide: new BorderSide(
-                                width: 2, style: BorderStyle.solid)),
-                        labelText: "Your Name",
-                        icon: Icon(
-                          Icons.verified_user,
+                    key: _formStateKey,
+                    autovalidate: true,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please Enter Name';
+                              }
+                              if (value.trim() == "")
+                                return "Only Space is Not Valid!!!";
+                              return null;
+                            },
+                            controller: _yourNameController,
+                            decoration: InputDecoration(
+                              focusedBorder: new UnderlineInputBorder(
+                                  borderSide: new BorderSide(
+                                      width: 2, style: BorderStyle.solid)),
+                              labelText: "Your Name",
+                              icon: Icon(
+                                Icons.verified_user,
+                              ),
+                              fillColor: Colors.white,
+                            ),
+                          ),
                         ),
-                        fillColor: Colors.white,
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            )
+                  )
                 : Container()),
             (editName
                 ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                RaisedButton(
-                  child: Text(
-                    'UPDATE',
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                  onPressed: () {
-                    if (_formStateKey.currentState.validate()) {
-                      profileReference
-                          .updateData({'name': _yourNameController.text});
-                      setState(() {
-                        editName = false;
-                      });
-                    }
-                  },
-                  color: Colors.lightBlue,
-                ),
-                RaisedButton(
-                  child: Text('CANCEL'),
-                  onPressed: () {
-                    setState(() {
-                      editName = false;
-                    });
-                  },
-                )
-              ],
-            )
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RaisedButton(
+                        child: Text(
+                          'UPDATE',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () {
+                          if (_formStateKey.currentState.validate()) {
+                            profileReference
+                                .updateData({'name': _yourNameController.text});
+                            setState(() {
+                              editName = false;
+                            });
+                          }
+                        },
+                        color: Colors.lightBlue,
+                      ),
+                      RaisedButton(
+                        child: Text('CANCEL'),
+                        onPressed: () {
+                          setState(() {
+                            editName = false;
+                          });
+                        },
+                      )
+                    ],
+                  )
                 : Container())
           ]),
     );
@@ -204,74 +207,74 @@ class _HomePageState extends State<HomePage> {
     return snapshot.data.documents
         .map<Widget>(
           (doc) => InkWell(
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: Colors.grey,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              child: ListTile(
+                title: Text(doc["name"]),
+                subtitle: Text(doc["mobile"]),
+                trailing: Icon(Icons.chevron_right),
               ),
             ),
-          ),
-          child: ListTile(
-            title: Text(doc["name"]),
-            subtitle: Text(doc["mobile"]),
-            trailing: Icon(Icons.chevron_right),
-          ),
-        ),
-        onTap: () async {
-          QuerySnapshot result = await db
-              .collection('chats')
-              .where('contact1', isEqualTo: widget.prefs.getString('uid'))
-              .where('contact2', isEqualTo: doc["uid"])
-              .getDocuments();
-          List<DocumentSnapshot> documents = result.documents;
-          if (documents.length == 0) {
-            result = await db
-                .collection('chats')
-                .where('contact2', isEqualTo: widget.prefs.getString('uid'))
-                .where('contact1', isEqualTo: doc["uid"])
-                .getDocuments();
-            documents = result.documents;
-            if (documents.length == 0) {
-              await db.collection('chats').add({
-                'contact1': widget.prefs.getString('uid'),
-                'contact2': doc["uid"]
-              }).then((documentReference) {
+            onTap: () async {
+              QuerySnapshot result = await db
+                  .collection('chats')
+                  .where('contact1', isEqualTo: widget.prefs.getString('uid'))
+                  .where('contact2', isEqualTo: doc["uid"])
+                  .getDocuments();
+              List<DocumentSnapshot> documents = result.documents;
+              if (documents.length == 0) {
+                result = await db
+                    .collection('chats')
+                    .where('contact2', isEqualTo: widget.prefs.getString('uid'))
+                    .where('contact1', isEqualTo: doc["uid"])
+                    .getDocuments();
+                documents = result.documents;
+                if (documents.length == 0) {
+                  await db.collection('chats').add({
+                    'contact1': widget.prefs.getString('uid'),
+                    'contact2': doc["uid"]
+                  }).then((documentReference) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ChatPage(
+                          prefs: widget.prefs,
+                          chatId: documentReference.documentID,
+                          title: doc["name"],
+                        ),
+                      ),
+                    );
+                  }).catchError((e) {});
+                } else {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ChatPage(
+                        prefs: widget.prefs,
+                        chatId: documents[0].documentID,
+                        title: doc["name"],
+                      ),
+                    ),
+                  );
+                }
+              } else {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ChatPage(
                       prefs: widget.prefs,
-                      chatId: documentReference.documentID,
+                      chatId: documents[0].documentID,
                       title: doc["name"],
                     ),
                   ),
                 );
-              }).catchError((e) {});
-            } else {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ChatPage(
-                    prefs: widget.prefs,
-                    chatId: documents[0].documentID,
-                    title: doc["name"],
-                  ),
-                ),
-              );
-            }
-          } else {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ChatPage(
-                  prefs: widget.prefs,
-                  chatId: documents[0].documentID,
-                  title: doc["name"],
-                ),
-              ),
-            );
-          }
-        },
-      ),
-    )
+              }
+            },
+          ),
+        )
         .toList();
   }
 
@@ -338,33 +341,33 @@ class _HomePageState extends State<HomePage> {
             actions: <Widget>[
               (_currentIndex == 0
                   ? Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.add),
-                    onPressed: () {
-                      openContacts();
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.backspace),
-                    onPressed: () {
-                      FirebaseAuth.instance.signOut().then((response) {
-                        widget.prefs.remove('is_verified');
-                        widget.prefs.remove('mobile_number');
-                        widget.prefs.remove('uid');
-                        widget.prefs.remove('name');
-                        widget.prefs.remove('profile_photo');
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                RegistrationPage(prefs: widget.prefs),
-                          ),
-                        );
-                      });
-                    },
-                  )
-                ],
-              )
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.add),
+                          onPressed: () {
+                            openContacts();
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.backspace),
+                          onPressed: () {
+                            FirebaseAuth.instance.signOut().then((response) {
+                              widget.prefs.remove('is_verified');
+                              widget.prefs.remove('mobile_number');
+                              widget.prefs.remove('uid');
+                              widget.prefs.remove('name');
+                              widget.prefs.remove('profile_photo');
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      RegistrationPage(prefs: widget.prefs),
+                                ),
+                              );
+                            });
+                          },
+                        )
+                      ],
+                    )
                   : Container())
             ],
           ),
