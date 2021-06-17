@@ -1,41 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_jetchart/pages/home_page.dart';
-import 'package:flutter_jetchart/pages/registration_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_jetchart/helper/authenticate.dart';
+import 'package:flutter_jetchart/helper/helperfunctions.dart';
+import 'package:flutter_jetchart/views/chatrooms.dart';
 
 void main() {
-  SharedPreferences.getInstance().then((prefs) {
-    runApp(MyApp(prefs: prefs));
-  });
+  runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  final SharedPreferences prefs;
-
-  MyApp({this.prefs});
-
+class MyApp extends StatefulWidget {
   // This widget is the root of your application.
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  bool userIsLoggedIn;
+
+  @override
+  void initState() {
+    getLoggedInState();
+    super.initState();
+  }
+
+  getLoggedInState() async {
+    await HelperFunctions.getUserLoggedInSharedPreference().then((value){
+      setState(() {
+        userIsLoggedIn  = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FlutterChat',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Color(0xff145C9E),
+        scaffoldBackgroundColor: Color(0xff1F1F1F),
+        accentColor: Color(0xff007EF4),
+        fontFamily: "OverpassRegular",
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: _decideMainPage(),
+      home: userIsLoggedIn != null ?  userIsLoggedIn ? ChatRoom() : Authenticate()
+          : Container(
+        child: Center(
+          child: Authenticate(),
+        ),
+      ),
     );
-  }
-
-  _decideMainPage() {
-    if (prefs.getBool('is_verified') != null) {
-      if (prefs.getBool('is_verified')) {
-        return HomePage(prefs: prefs);
-        // return RegistrationPage(prefs: prefs);
-      } else {
-        return RegistrationPage(prefs: prefs);
-      }
-    } else {
-      return RegistrationPage(prefs: prefs);
-    }
   }
 }
